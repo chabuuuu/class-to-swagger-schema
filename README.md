@@ -1,0 +1,1 @@
+# class-to-swagger-schema
