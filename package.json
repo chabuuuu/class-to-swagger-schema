@@ -1,0 +1,33 @@
+{
+  "name": "class-to-swagger-schema",
+  "version": "1.0.1",
+  "description": "Convert DTO class using class transformer to swagger schema",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --declaration",
+    "dev": "npx ts-node ./src/index.ts",
+    "example": "npx ts-node ./example/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chabuuuu/class-to-swagger-schema"
+  },
+  "keywords": [
+    "swagger",
+    "class-transformer",
+    "dto",
+    "class",
+    "typescript",
+    "typescript class to swagger schema"
+  ],
+  "author": "haphuthinh",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^22.0.0",
+    "class-transformer": "^0.5.1",
+    "reflect-metadata": "^0.2.2",
+    "typescript": "^5.5.3"
+  },
+  "devDependencies": {}
+}
