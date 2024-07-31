@@ -4,10 +4,6 @@ A very helpul and light weigh package for mapping Typescript class to Swagger Sc
 
 Author: chabuuuu (aka haphuthinh)
 
-[![NPM Version][npm-version-image]][npm-url]
-[![NPM Install Size][npm-install-size-image]][npm-install-size-url]
-[![NPM Downloads][npm-downloads-image]][npm-downloads-url]
-
 ## :computer: Installation
 
 ```
