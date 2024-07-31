@@ -13,7 +13,7 @@ import {
   SwaggerExample,
   SwaggerProperty,
   swaggerSchemaGenerator,
-} from "../src/index";
+} from "class-to-swagger-schema";
 /**
  * Config base schema example, you can config your own schema
  * There are total 8 base schema that you can config:
