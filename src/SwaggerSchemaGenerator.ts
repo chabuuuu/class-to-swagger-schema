@@ -1,7 +1,9 @@
 import "reflect-metadata";
-import { convertToDto } from "./dto-convert/dto-converter";
-import { getPropertyDescription } from "./decorator/PropertyDescription.decorator";
-import { getPropertyExample } from "./decorator/PropertyExample.decorator";
+import {
+  getSwaggerProperty,
+  propertiesStorage,
+} from "./decorator/SwaggerProperty.decorator";
+import { getSwaggerExample } from "./decorator/SwaggerExample.decorator";
 
 export class SwaggerSchemaGenerator {
   private requestBodySchema: Record<any, any> = {};
@@ -54,15 +56,24 @@ export class SwaggerSchemaGenerator {
 
   private convertDto(dtoClass: any): Record<any, any> {
     let properties: Record<any, any> = {};
-    const instance = new dtoClass();
-    const instanceKeys = Object.keys(
-      convertToDto<typeof dtoClass>(dtoClass, {})
-    );
+    const dtoClassInstance = new dtoClass();
+    let keysOfClass = propertiesStorage.get(dtoClassInstance.constructor.name);
+    if (!keysOfClass) {
+      return properties;
+    }
+    for (const key of keysOfClass) {
+      const metaDataValue = getSwaggerProperty(dtoClassInstance, key);
+      let description = "";
+      let example = "";
+      if (metaDataValue?.description) {
+        description = metaDataValue.description;
+      }
+      const exampleValue = getSwaggerExample(dtoClassInstance, key);
+      if (exampleValue) {
+        example = exampleValue;
+      }
 
-    for (const key of instanceKeys) {
-      const type = Reflect.getMetadata("design:type", instance, key);
-      const description = getPropertyDescription(instance, key);
-      const example = getPropertyExample(instance, key);
+      const type = Reflect.getMetadata("design:type", dtoClass, key);
 
       let typeString = "";
 
@@ -79,7 +90,6 @@ export class SwaggerSchemaGenerator {
         default:
           typeString = "object";
       }
-
       properties[key] = {
         type: typeString,
         description: description,

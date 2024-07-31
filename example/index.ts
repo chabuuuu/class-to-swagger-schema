@@ -1,4 +1,3 @@
-import { Expose } from "class-transformer";
 import { createSuccessResponseSchema } from "./base-schema/create-success-response.schema";
 import { deleteSuccessResponseSchema } from "./base-schema/delete-success-response.schema";
 import { errorResponseSchema } from "./base-schema/error-response.schema";
@@ -11,8 +10,8 @@ import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import express from "express";
 import {
-  PropertyDescription,
-  PropertyExample,
+  SwaggerExample,
+  SwaggerProperty,
   swaggerSchemaGenerator,
 } from "class-to-swagger-schema";
 /**
@@ -49,14 +48,12 @@ Example that I have a DTO class that describe request body
 for resgiter new user, I want to inject this class to the swagger schema
 */
 class RegisterUserRequestDto {
-  @PropertyDescription("Username of user")
-  @PropertyExample("my_user_name_is_cool_123")
-  @Expose()
+  @SwaggerProperty("Username of user")
+  @SwaggerExample("my_cool_username")
   username!: string;
 
-  @PropertyDescription("Password of user")
-  @PropertyExample("my_password_is_cool_123")
-  @Expose()
+  @SwaggerProperty("Password of user")
+  @SwaggerExample("my_cool_password")
   password!: string;
 }
 /*
@@ -66,28 +63,23 @@ const testRequestBody = swaggerSchemaGenerator.generateRequestBody(
   RegisterUserRequestDto
 );
 
-console.log("test request body schema: ", JSON.stringify(testRequestBody));
-
 /*
 Next, I want to generate schema for the create success response
 */
 //I have a DTO class that describe the response when register new user successfully
 class RegisterUserResponseDto {
-  @PropertyDescription("ID of user")
-  @PropertyExample("1562")
-  @Expose()
+  @SwaggerProperty("Id of user")
+  @SwaggerExample("152")
   id!: number;
-  @PropertyDescription("Username of user")
-  @PropertyExample("my_user_name_is_cool_123")
-  @Expose()
+
+  @SwaggerProperty("Username of user")
+  @SwaggerExample("my_cool_username")
   username!: string;
 }
 
 const testCreate = swaggerSchemaGenerator.generateCreateSuccessResponse(
   RegisterUserResponseDto
 );
-
-console.log("test create schema: ", JSON.stringify(testCreate));
 
 /*
 Example that I want to generate schema for the error response when register new user:
@@ -100,8 +92,6 @@ const testError = swaggerSchemaGenerator.generateErrorResponse(
   400, //The status code you want to inject (optional)
   "Bad request" //The status message you want to inject (optional)
 );
-
-console.log("test error schema: ", JSON.stringify(testError));
 
 /*
 Next, I need to mapping the schema above to the swagger schema
@@ -170,29 +160,23 @@ app.listen(3000, () => {
  */
 
 class ExampleDto {
-  @PropertyDescription("Example property")
-  @PropertyExample("Example value")
-  @Expose()
+  @SwaggerProperty()
   example!: string;
 }
 /*
 Example that I want to generate schema for the update success response
 */
 const testUpdate = swaggerSchemaGenerator.generateUpdateSuccessResponse();
-console.log("test update schema: ", JSON.stringify(testUpdate));
 
 /*
 Example that I want to generate schema for the delete success response
 */
 const testDelete = swaggerSchemaGenerator.generateDeleteSuccessResponse();
-console.log("test delete schema: ", JSON.stringify(testDelete));
 
 /*
 Example that I want to generate schema for the find one response
 */
 const testFindOne = swaggerSchemaGenerator.generateFindOneResponse(ExampleDto);
-
-console.log("test find one schema: ", JSON.stringify(testFindOne));
 
 /*
 Example that I want to generate schema for the find many response
@@ -200,15 +184,8 @@ Example that I want to generate schema for the find many response
 const testFindMany =
   swaggerSchemaGenerator.generateFindManyResponse(ExampleDto);
 
-console.log("test find many schema: ", JSON.stringify(testFindMany));
-
 /*
 Example that I want to generate schema for the find many paging response
 */
 const testFindManyPaging =
   swaggerSchemaGenerator.generateFindManyPagingResponse(ExampleDto);
-
-console.log(
-  "test find many paging schema: ",
-  JSON.stringify(testFindManyPaging)
-);
