@@ -2,7 +2,26 @@
 
 A very helpul and light weigh package for mapping Typescript class to Swagger Schema
 
-Author: chabuuuu (aka haphuthinh)
+Author: chabuuuu (a.k.a haphuthinh)
+
+- [Installation](#computer-installation)
+- [Usage](#usage)
+- [Class property decorator](#class-property-decorator)
+  - [@SwaggerProperty](#swaggerproperty)
+  - [@SwaggerExample](#swaggerexample)
+- [Inject property](#inject-property)
+  - [injectClassHere](#injectclasshere)
+  - [injectHttpStatusExample](#injecthttpstatusexample)
+  - [injectHttpMessageExample](#injecthttpmessageexample)
+- [Other schema type (totally 8 schema type)](#other-schema-type-totally-8-schema-type)
+  - [Create success response schema](#create-success-response-schema)
+  - [Error schema](#error-schema)
+  - [Update success response schema](#update-success-response-schema)
+  - [Delete success response](#delete-success-response)
+  - [Find one response schema](#find-one-response-schema)
+  - [Find many response schema](#find-many-response-schema)
+  - [Find many (with paging) response schema](#find-many-with-paging-response-schema)
+  - [Create success response schema](#usage)
 
 ## :computer: Installation
 
@@ -71,7 +90,7 @@ import {
   swaggerSchemaGenerator,
 } from "class-to-swagger-schema";
 
-const testRequestBody = swaggerSchemaGenerator.generateRequestBody();
+const testRequestBody = swaggerSchemaGenerator.generateRequestBody(RegisterUserRequestDto);
 
 ```
 
@@ -173,6 +192,149 @@ class TestDto {
     @SwaggerExample("my_password") //This will show example as "my_password" in Swagger schema
     password!: string
 }
+```
+
+## Inject property
+
+### injectClassHere
+
+This mark that the object that this will be replace with the class you inject:
+
+```
+export const requestBodySchema = {
+  type: "object",
+  properties: {
+    /**
+     ** Add this if you want to inject your class here
+     */
+    injectClassHere: true,
+  },
+};
+
+```
+
+Then do this:
+
+```
+swaggerSchemaGenerator.setRequestBodySchema(requestBodySchema);
+
+const testRequestBody = swaggerSchemaGenerator.generateRequestBody(
+  RegisterUserRequestDto
+);
+
+/*
+ value of testRequestBody =
+    components:
+      schemas:
+        type: "object",
+            properties:
+                username:
+                    type: "string"
+                    description: "Username of user"
+                    example: "my_username_is_cool_123"
+                password:
+                    type: "string"
+                    description: "Password of user"
+                    example: "my_password_is_cool_123"
+*/
+```
+
+### injectHttpStatusExample
+
+This mark that the object that this will be replace with the class you inject:
+
+```
+export const errorSchema = {
+  type: "object",
+    httpStatus: {
+      type: "integer",
+      description: "HTTP status code",
+      example: {
+        /**
+         ** Add this if you want to inject http status example here
+         */
+        injectHttpStatusExample: true,
+      },
+    },
+};
+
+```
+
+Then do this:
+
+```
+swaggerSchemaGenerator.setErrorResponseSchema(errorSchema);
+
+
+const testError = swaggerSchemaGenerator.generateErrorResponse(
+  "",
+  null,
+  400, //The status code you want to inject
+  null,
+);
+
+As a result, this will inject the status code: 400 to the
+
+/*
+ value of testError =
+    components:
+      schemas:
+        type: "object",
+            properties:
+                httpStatus:
+                    type: "integer"
+                    description: "HTTP status code"
+                    example: "400"
+*/
+```
+
+### injectHttpMessageExample
+
+This mark that the object that this will be replace with the class you inject:
+
+```
+export const errorSchema = {
+  type: "object",
+    httpMessage: {
+      type: "string",
+      description: "HTTP status message",
+      example: {
+        /**
+         ** Add this if you want to inject http message example here
+         */
+        injectHttpMessageExample: true,
+      },
+    },
+};
+
+```
+
+Then do this:
+
+```
+swaggerSchemaGenerator.setErrorResponseSchema(errorSchema);
+
+
+const testError = swaggerSchemaGenerator.generateErrorResponse(
+  "",
+  null,
+  null,
+  "Bad request", //The status message you want to inject (optional)
+);
+
+As a result, this will inject the http message: "Bad request" to the
+
+/*
+ value of testError =
+    components:
+      schemas:
+        type: "object",
+            properties:
+                httpMessage:
+                    type: "string"
+                    description: "HTTP status message"
+                    example: ""Bad request""
+*/
 ```
 
 ## Other schema type (totally 8 schema type)
@@ -293,7 +455,7 @@ export const errorResponseSchema = {
 
 Example that I want to generate schema for the error response when register new user:
 User provide invalid password, http status code is 400,
-custom error code is INVALID\*PASSWORD_ERROR, I want to inject this error to the swagger schema
+custom error code is INVALID_PASSWORD_ERROR, I want to inject this error to the swagger schema
 
 ```
 const testError = swaggerSchemaGenerator.generateErrorResponse(
