@@ -1,6 +1,6 @@
 # class-to-swagger-schema
 
-A very helpul and light weigh package for mapping Typescript class to Swagger Schema
+A very helpul and light weight package for mapping Typescript class to Swagger Schema
 
 Author: chabuuuu (a.k.a haphuthinh)
 
