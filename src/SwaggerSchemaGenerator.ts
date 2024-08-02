@@ -4,34 +4,74 @@ import {
   propertiesStorage,
 } from "./decorator/SwaggerProperty.decorator";
 import { getSwaggerExample } from "./decorator/SwaggerExample.decorator";
-import { Schema } from "inspector";
 
 /**
- * Schema configuration
- * @param findOneResponseSchema - The base schema for find one response
- * @param findManyResponseSchema - The base schema for find many response
- * @param findPagingResponseSchema - The base schema for find paging response
- * @param createSuccessResponseSchema - The base schema for create success response
- * @param updateSuccessResponseSchema - The base schema for update success response
- * @param deleteSuccessResponseSchema - The base schema for delete success response
- * @param errorResponseSchema - The base schema for error response
- * @param requestBodySchema - The base schema for request body
+ * Configuration options for generating base Swagger schemas.
  */
 export type SchemaConfig = {
+  /**
+   * Schema for the response of a findOne operation.
+   */
   findOneResponseSchema?: Record<any, any> | undefined;
+
+  /**
+   * Schema for the response of a findMany operation.
+   */
   findManyResponseSchema?: Record<any, any> | undefined;
-  findPagingResponseSchema?: Record<any, any> | undefined;
+
+  /**
+   * Schema for the response of a findMany operation with paging.
+   */
+  findManyPagingResponseSchema?: Record<any, any> | undefined;
+
+  /**
+   * Schema for the response of a successful create operation.
+   */
   createSuccessResponseSchema?: Record<any, any> | undefined;
+
+  /**
+   * Schema for the response of a successful update operation.
+   */
   updateSuccessResponseSchema?: Record<any, any> | undefined;
+
+  /**
+   * Schema for the response of a successful delete operation.
+   */
   deleteSuccessResponseSchema?: Record<any, any> | undefined;
+
+  /**
+   * Schema for the response of an error.
+   */
   errorResponseSchema?: Record<any, any> | undefined;
+
+  /**
+   * Schema for the request body.
+   */
   requestBodySchema?: Record<any, any> | undefined;
 };
 
+/**
+ * Represents the schema for setting error properties.
+ */
 export type ErrorSchemaSetter = {
+  /**
+   * The error message.
+   */
   message: string;
+
+  /**
+   * The error code (optional).
+   */
   code?: string | undefined;
+
+  /**
+   * The HTTP status code (optional).
+   */
   httpStatusCode?: number | undefined;
+
+  /**
+   * The HTTP status message (optional).
+   */
   httpStatusMessage?: string | undefined;
 };
 
@@ -42,7 +82,7 @@ export class SwaggerSchemaGenerator {
 
   private findManyResponseSchema: Record<any, any> = {};
 
-  private findPagingResponseSchema: Record<any, any> = {};
+  private findManyPagingResponseSchema: Record<any, any> = {};
 
   private createSuccessResponseSchema: Record<any, any> = {};
 
@@ -55,7 +95,8 @@ export class SwaggerSchemaGenerator {
   public configure(config: SchemaConfig): void {
     this.findManyResponseSchema = config.findManyResponseSchema || {};
     this.findOneResponseSchema = config.findOneResponseSchema || {};
-    this.findPagingResponseSchema = config.findPagingResponseSchema || {};
+    this.findManyPagingResponseSchema =
+      config.findManyPagingResponseSchema || {};
     this.createSuccessResponseSchema = config.createSuccessResponseSchema || {};
     this.updateSuccessResponseSchema = config.updateSuccessResponseSchema || {};
     this.deleteSuccessResponseSchema = config.deleteSuccessResponseSchema || {};
@@ -76,7 +117,7 @@ export class SwaggerSchemaGenerator {
   }
 
   public setFindManyPagingResponseSchema(schema: Record<any, any>): void {
-    this.findPagingResponseSchema = schema;
+    this.findManyPagingResponseSchema = schema;
   }
 
   public setCreateSuccessResponseSchema(schema: Record<any, any>): void {
@@ -160,9 +201,9 @@ export class SwaggerSchemaGenerator {
    */
   public generateFindManyPagingResponse(dtoClass: any): Record<any, any> {
     const properties = this.convertDto(dtoClass);
-    this.findPagingResponseSchema.properties.data.properties.items.items.properties =
+    this.findManyPagingResponseSchema.properties.data.properties.items.items.properties =
       properties;
-    return this.findPagingResponseSchema;
+    return this.findManyPagingResponseSchema;
   }
 
   /**

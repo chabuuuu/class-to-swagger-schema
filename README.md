@@ -510,12 +510,12 @@ const testError = swaggerSchemaGenerator.generateErrorResponse(
 Next, I need to mapping the schema above to the swagger schema
 
 ```
-export const swaggerSchemaMapping = {
-
-RegisterSuccessResponseDto: testCreate,
-
-Register_INVALID_PASSWORD_ERROR: testError, //Add new map
-};
+const testError = swaggerSchemaGenerator.generateErrorResponse({
+  message: "Your password must be at least 10 charactors", //The error message you want to inject (required)
+  code: "INVALID_PASSWORD_ERROR", //The error code you want to inject (optional)
+  httpStatusCode: 400, //The status code you want to inject (optional)
+  httpStatusMessage: "Bad request", //The status message you want to inject (optional)
+});
 ```
 
 The result will as below:

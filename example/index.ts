@@ -26,22 +26,16 @@ import {
  * - requestBodySchema
  * - updateSuccessResponseSchema
  */
-swaggerSchemaGenerator.setCreateSuccessResponseSchema(
-  createSuccessResponseSchema
-);
-swaggerSchemaGenerator.setDeleteSuccessResponseSchema(
-  deleteSuccessResponseSchema
-);
-swaggerSchemaGenerator.setErrorResponseSchema(errorResponseSchema);
-swaggerSchemaGenerator.setFindManyPagingResponseSchema(
-  findManyPagingResponseSchema
-);
-swaggerSchemaGenerator.setFindManyResponseSchema(findManyResponseSchema);
-swaggerSchemaGenerator.setFindOneResponseSchema(findOneResponseSchema);
-swaggerSchemaGenerator.setRequestBodySchema(requestBodySchema);
-swaggerSchemaGenerator.setUpdateSuccessResponseSchema(
-  updateSuccessResponseSchema
-);
+swaggerSchemaGenerator.configure({
+  createSuccessResponseSchema: createSuccessResponseSchema,
+  deleteSuccessResponseSchema: deleteSuccessResponseSchema,
+  errorResponseSchema: errorResponseSchema,
+  findManyPagingResponseSchema: findManyPagingResponseSchema,
+  findManyResponseSchema: findManyResponseSchema,
+  findOneResponseSchema: findOneResponseSchema,
+  requestBodySchema: requestBodySchema,
+  updateSuccessResponseSchema: updateSuccessResponseSchema,
+});
 
 /*
 Example that I have a DTO class that describe request body
@@ -86,12 +80,12 @@ Example that I want to generate schema for the error response when register new 
 User provide invalid password, http status code is 400, 
 custom error code is INVALID_PASSWORD_ERROR, I want to inject this error to the swagger schema
 */
-const testError = swaggerSchemaGenerator.generateErrorResponse(
-  "Your password must be at least 10 charactors", //The error message you want to inject (required)
-  "INVALID_PASSWORD_ERROR", //The error code you want to inject (optional)
-  400, //The status code you want to inject (optional)
-  "Bad request" //The status message you want to inject (optional)
-);
+const testError = swaggerSchemaGenerator.generateErrorResponse({
+  message: "Your password must be at least 10 charactors", //The error message you want to inject (required)
+  code: "INVALID_PASSWORD_ERROR", //The error code you want to inject (optional)
+  httpStatusCode: 400, //The status code you want to inject (optional)
+  httpStatusMessage: "Bad request", //The status message you want to inject (optional)
+});
 
 /*
 Next, I need to mapping the schema above to the swagger schema
