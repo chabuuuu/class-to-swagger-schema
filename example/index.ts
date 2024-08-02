@@ -30,7 +30,7 @@ swaggerSchemaGenerator.configure({
   createSuccessResponseSchema: createSuccessResponseSchema,
   deleteSuccessResponseSchema: deleteSuccessResponseSchema,
   errorResponseSchema: errorResponseSchema,
-  findPagingResponseSchema: findManyPagingResponseSchema,
+  findManyPagingResponseSchema: findManyPagingResponseSchema,
   findManyResponseSchema: findManyResponseSchema,
   findOneResponseSchema: findOneResponseSchema,
   requestBodySchema: requestBodySchema,
