@@ -1,6 +1,6 @@
 # class-to-swagger-schema
 
-[![npm package](https://img.shields.io/badge/npm_package-click_here-green)](https://www.npmjs.com/package/class-to-swagger-schema) [![npm version](https://img.shields.io/badge/npm_version-1.0.8-red)](https://www.npmjs.com/package/class-to-swagger-schema) [![github profile](https://img.shields.io/badge/github_profile-chabuuuu-blue)](https://github.com/chabuuuu)
+[![npm package](https://img.shields.io/badge/npm_package-click_here-green)](https://www.npmjs.com/package/class-to-swagger-schema) [![npm version](https://img.shields.io/badge/npm_version-1.0.9-red)](https://www.npmjs.com/package/class-to-swagger-schema) [![github profile](https://img.shields.io/badge/github_profile-chabuuuu-blue)](https://github.com/chabuuuu)
 
 A very helpul and light weight package for mapping Typescript class to Swagger Schema
 
