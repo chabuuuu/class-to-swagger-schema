@@ -1,6 +1,6 @@
 # class-to-swagger-schema
 
-[![npm package](https://img.shields.io/badge/npm_package-click_here-green)](https://www.npmjs.com/package/class-to-swagger-schema) [![npm version](https://img.shields.io/badge/npm_version-1.0.5-red)](https://www.npmjs.com/package/class-to-swagger-schema) [![github profile](https://img.shields.io/badge/github_profile-chabuuuu-blue)](https://github.com/chabuuuu)
+[![npm package](https://img.shields.io/badge/npm_package-click_here-green)](https://www.npmjs.com/package/class-to-swagger-schema) [![npm version](https://img.shields.io/badge/npm_version-1.0.8-red)](https://www.npmjs.com/package/class-to-swagger-schema) [![github profile](https://img.shields.io/badge/github_profile-chabuuuu-blue)](https://github.com/chabuuuu)
 
 A very helpul and light weight package for mapping Typescript class to Swagger Schema
 
@@ -499,23 +499,25 @@ User provide invalid password, http status code is 400,
 custom error code is INVALID_PASSWORD_ERROR, I want to inject this error to the swagger schema
 
 ```
-const testError = swaggerSchemaGenerator.generateErrorResponse(
-"Your password must be at least 10 charactors", //The error message you want to inject (required)
-"INVALID_PASSWORD_ERROR", //The error code you want to inject (optional)
-400, //The status code you want to inject (optional)
-"Bad request" //The status message you want to inject (optional)
-);
-```
-
-Next, I need to mapping the schema above to the swagger schema
-
-```
 const testError = swaggerSchemaGenerator.generateErrorResponse({
   message: "Your password must be at least 10 charactors", //The error message you want to inject (required)
   code: "INVALID_PASSWORD_ERROR", //The error code you want to inject (optional)
   httpStatusCode: 400, //The status code you want to inject (optional)
   httpStatusMessage: "Bad request", //The status message you want to inject (optional)
 });
+```
+
+Next, I need to mapping the schema above to the swagger schema
+
+```
+export const swaggerSchemaMapping = {
+  /**
+   ** POST /user/register
+   */
+  RegisterRequestBodyDto: testRequestBody,
+  RegisterSuccessResponseDto: testCreate,
+  Register_INVALID_PASSWORD_ERROR: testError,
+};
 ```
 
 The result will as below:
