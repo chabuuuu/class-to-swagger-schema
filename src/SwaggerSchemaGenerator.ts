@@ -4,6 +4,36 @@ import {
   propertiesStorage,
 } from "./decorator/SwaggerProperty.decorator";
 import { getSwaggerExample } from "./decorator/SwaggerExample.decorator";
+import { Schema } from "inspector";
+
+/**
+ * Schema configuration
+ * @param findOneResponseSchema - The base schema for find one response
+ * @param findManyResponseSchema - The base schema for find many response
+ * @param findPagingResponseSchema - The base schema for find paging response
+ * @param createSuccessResponseSchema - The base schema for create success response
+ * @param updateSuccessResponseSchema - The base schema for update success response
+ * @param deleteSuccessResponseSchema - The base schema for delete success response
+ * @param errorResponseSchema - The base schema for error response
+ * @param requestBodySchema - The base schema for request body
+ */
+export type SchemaConfig = {
+  findOneResponseSchema?: Record<any, any> | undefined;
+  findManyResponseSchema?: Record<any, any> | undefined;
+  findPagingResponseSchema?: Record<any, any> | undefined;
+  createSuccessResponseSchema?: Record<any, any> | undefined;
+  updateSuccessResponseSchema?: Record<any, any> | undefined;
+  deleteSuccessResponseSchema?: Record<any, any> | undefined;
+  errorResponseSchema?: Record<any, any> | undefined;
+  requestBodySchema?: Record<any, any> | undefined;
+};
+
+export type ErrorSchemaSetter = {
+  message: string;
+  code?: string | undefined;
+  httpStatusCode?: number | undefined;
+  httpStatusMessage?: string | undefined;
+};
 
 export class SwaggerSchemaGenerator {
   private requestBodySchema: Record<any, any> = {};
@@ -21,6 +51,17 @@ export class SwaggerSchemaGenerator {
   private deleteSuccessResponseSchema: Record<any, any> = {};
 
   private errorResponseSchema: Record<any, any> = {};
+
+  public configure(config: SchemaConfig): void {
+    this.findManyResponseSchema = config.findManyResponseSchema || {};
+    this.findOneResponseSchema = config.findOneResponseSchema || {};
+    this.findPagingResponseSchema = config.findPagingResponseSchema || {};
+    this.createSuccessResponseSchema = config.createSuccessResponseSchema || {};
+    this.updateSuccessResponseSchema = config.updateSuccessResponseSchema || {};
+    this.deleteSuccessResponseSchema = config.deleteSuccessResponseSchema || {};
+    this.errorResponseSchema = config.errorResponseSchema || {};
+    this.requestBodySchema = config.requestBodySchema || {};
+  }
 
   public setRequestBodySchema(schema: Record<any, any>): void {
     this.requestBodySchema = schema;
@@ -186,7 +227,7 @@ export class SwaggerSchemaGenerator {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         if (typeof obj[key] === "object" && obj[key] !== null) {
-          if (obj[key].injectHttpStatusExample === true) {
+          if (obj[key].injectHttpMessageExample === true) {
             obj[key] = value;
           } else {
             this.findAndInjectHttpMessageToSchema(obj[key], value);
@@ -231,11 +272,11 @@ export class SwaggerSchemaGenerator {
    * @returns
    */
   public generateErrorResponse(
-    message: string,
-    code?: string,
-    httpStatusCode?: number,
-    httpStatusMessage?: string
+    errorSchemaSetter: ErrorSchemaSetter
   ): Record<any, any> {
+    const { message, code, httpStatusCode, httpStatusMessage } =
+      errorSchemaSetter;
+
     let errorClass: any = {
       message: {
         type: "string",
