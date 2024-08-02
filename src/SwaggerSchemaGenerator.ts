@@ -256,7 +256,7 @@ export class SwaggerSchemaGenerator {
           if (obj[key].injectHttpStatusExample === true) {
             obj[key] = value;
           } else {
-            this.findAndInjectClassToSchema(obj[key], value);
+            this.findAndInjectHttpStatusToSchema(obj[key], value);
           }
         }
       }
