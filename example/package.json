@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "class-to-swagger-schema": "^1.0.2",
+    "class-to-swagger-schema": "^1.0.5",
     "class-transformer": "^0.5.1",
     "express": "^4.19.2",
     "swagger-jsdoc": "^6.2.8",
