@@ -1,14 +1,17 @@
 # class-to-swagger-schema
 
+[![npm package](https://img.shields.io/badge/npm_package-click_here-green)](https://www.npmjs.com/package/class-to-swagger-schema) [![npm version](https://img.shields.io/badge/npm_version-1.0.5-red)](https://www.npmjs.com/package/class-to-swagger-schema) [![github profile](https://img.shields.io/badge/github_profile-chabuuuu-blue)](https://github.com/chabuuuu)
+
 A very helpul and light weight package for mapping Typescript class to Swagger Schema
 
-Author: chabuuuu (a.k.a haphuthinh)
+### Author: chabuuuu (haphuthinh)
 
 - [Installation](#computer-installation)
 - [Usage](#usage)
 - [Class property decorator](#class-property-decorator)
   - [@SwaggerProperty](#swaggerproperty)
   - [@SwaggerExample](#swaggerexample)
+- [Schema configure](#schema-configure)
 - [Inject property](#inject-property)
   - [injectClassHere](#injectclasshere)
   - [injectHttpStatusExample](#injecthttpstatusexample)
@@ -192,6 +195,44 @@ class TestDto {
     @SwaggerExample("my_password") //This will show example as "my_password" in Swagger schema
     password!: string
 }
+```
+
+## Schema configure
+
+### Style A
+
+```
+swaggerSchemaGenerator.configure({
+  createSuccessResponseSchema: createSuccessResponseSchema,
+  deleteSuccessResponseSchema: deleteSuccessResponseSchema,
+  errorResponseSchema: errorResponseSchema,
+  findManyPagingResponseSchema: findManyPagingResponseSchema,
+  findManyResponseSchema: findManyResponseSchema,
+  findOneResponseSchema: findOneResponseSchema,
+  requestBodySchema: requestBodySchema,
+  updateSuccessResponseSchema: updateSuccessResponseSchema,
+});
+```
+
+### Style B
+
+```
+swaggerSchemaGenerator.setCreateSuccessResponseSchema(
+  createSuccessResponseSchema
+);
+swaggerSchemaGenerator.setDeleteSuccessResponseSchema(
+  deleteSuccessResponseSchema
+);
+swaggerSchemaGenerator.setErrorResponseSchema(errorResponseSchema);
+swaggerSchemaGenerator.setFindManyPagingResponseSchema(
+  findManyPagingResponseSchema
+);
+swaggerSchemaGenerator.setFindManyResponseSchema(findManyResponseSchema);
+swaggerSchemaGenerator.setFindOneResponseSchema(findOneResponseSchema);
+swaggerSchemaGenerator.setRequestBodySchema(requestBodySchema);
+swaggerSchemaGenerator.setUpdateSuccessResponseSchema(
+  updateSuccessResponseSchema
+);
 ```
 
 ## Inject property
